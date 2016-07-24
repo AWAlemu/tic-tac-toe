@@ -70,7 +70,8 @@ $(function(){
 		form.setName(name1, name2);
 		$('.playersInfo').hide();
 		$('.game').show();
-		newGame();
+		currentGame = newGame();
+		updateTurn();
 	});
 	$('#resetBtn').click(function() {
 		form.reset();
@@ -106,7 +107,8 @@ $(function(){
 	}
 	
 	$('#newGameBtn').click(function() {
-	  	newGame();
+	  	currentGame = newGame();
+	  	updateTurn();
 	 });
 
 });
@@ -176,20 +178,19 @@ function newGame() {
 	clearBoard();
 	$('.box').off('click');
 	userSelects();
-	gameName = "Game" + (games.count + 1);
-	
+	var gameName = "Game" + (games.count + 1);
+		
 	games.new(gameName);
-	currentGame = gameName;
-		//add players info into newgame
+	
 	if (form.form1.first) {
 		games[gameName].addPlayers(form.form1.name, form.form1.xo, form.form2.name, form.form2.xo);
 	}
 	else if (form.form2.first) {
 		games[gameName].addPlayers(form.form2.name, form.form2.xo, form.form1.name, form.form1.xo);
 	}
-	$('#winner').hide();
-	$('#player').show();
-	updateTurn();
+	$('.winner').hide();
+	$('.playerTurn').show();
+	return gameName;
 }
 
 Board = {
@@ -266,8 +267,6 @@ Game = {
 	turn: 'player1',
 	board: Object.create(Board),
 	winner: '',
-	player1Mvs: [],
-	player2Mvs: [],
 	addPlayers: function(player1Name, player1XO, player2Name, player2XO) {
 			this.endTurn();
 			this.player1.setName(player1Name);
@@ -331,7 +330,6 @@ Game = {
 	},
 	moveMade: function(id) {
 		if (this[this.turn].turn) {
-			this[this.turn + 'Mvs'].push(id);
 			this.board.mark(id, this[this.turn].xo);
 			this.moveCount++;
 			if (this.moveCount >= 5) {
