@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Tic Tac Toe</title>
+	<link rel="stylesheet" type="text/css" href="css/normalize.css">
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+
+</head>
+<body>
+	<div class="content">
+		<div class="landing">
+			<button id="playBtn">2 Players</button>
+			<br>
+			<button id="playPC">Against PC</button>
+		</div>
+		<div class="playersInfo hidden">
+			<form class="form">
+				<div class="player1">
+					<input id="name" type="text" name="name1" placeholder=" Enter Player Name" required>
+					<br>
+					<ul class="lists">
+						<h4>Turn</h4>
+						<li><input type="button" name="first" id="first" class="turn1" value="First"></li>
+						<li><input type="button" name="second" id="second"  class="turn1" value="Second"></li>
+					</ul>
+					<h4 id="or">OR</h4>
+					<ul class="lists">
+						<h4>Marker</h4>
+						<li><input type="button" name="first" id="x" class="mark1" value="X"></li>
+						<li><input type="button" name="second" id="o" class="mark1" value="O"></li>
+					</ul>	
+				</div>
+				<h1 id="vs">VS.</h1>
+				<div class="player2">
+					<input id="name" type="text" name="name2" placeholder="Enter Player Name" required>
+					<br>
+					<ul class="lists turn2">
+						<h4>Turn</h4>
+						<li><input type="button" name="first" id="first2" class="option2" value="First"></li>
+						<li><input type="button" name="second" id="second2" class="option2" value="Second"></li>
+					</ul>
+					<ul class="lists mark2">
+						<h4>Marker</h4>
+						<li><input type="button" name="first" id="x2" class="option2" value="X"></li>
+						<li><input type="button" name="second" id="o2" class="option2" value="O"></li>
+					</ul>	
+				</div>
+				<br>
+				<button id="resetBtn" type="reset">Reset</button>
+				<br>
+				<button id="startBtn" type="submit">Start Game</button>
+			</form>
+		</div>
+		<div class="game hidden">
+			<div class="playersTurn">
+				<p class="playerTurn"><span id="player"></span>'s Turn</p>
+				<p class="winner hidden"><span id="player"></span> Won</p>
+			</div>
+			<div class="boxes">
+				<div class="box " id="box1"></div>
+				<div class="box " id="box2"></div>
+				<div class="box " id="box3"></div>
+				<div class="box " id="box4"></div>
+				<div class="box " id="box5"></div>
+				<div class="box " id="box6"></div>
+				<div class="box " id="box7"></div>
+				<div class="box " id="box8"></div>
+				<div class="box " id="box9"></div>
+			</div>
+			<button id="newGameBtn">Start New Game</button>
+		</div>
+	</div>
+	<script src="https://code.jquery.com/jquery.min.js"></script>
+	<script src="js/app.js"></script>
+</body>
+</html>
