@@ -139,6 +139,9 @@
 	border-radius: 0.25em;
 	height: 2em;
 }
+#player {
+	text-transform: capitalize;
+}
 .hidden {
 	display: none;
 }
