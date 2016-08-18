@@ -10,9 +10,9 @@
 <body>
 	<div class="content">
 		<div class="landing">
-			<button id="playBtn">2 Players</button>
+			<button id="playBtn">Play</button>
 			<br>
-			<button id="playPC">Against PC</button>
+			<!-- <button id="playPC">Against PC</button> -->
 		</div>
 		<div class="playersInfo hidden">
 			<form class="form">
@@ -56,17 +56,18 @@
 			<div class="playersTurn">
 				<p class="playerTurn"><span id="player"></span>'s Turn</p>
 				<p class="winner hidden"><span id="player"></span> Won</p>
+				<p class="tied">Tied</p>
 			</div>
 			<div class="boxes">
-				<div class="box " id="box1"></div>
-				<div class="box " id="box2"></div>
-				<div class="box " id="box3"></div>
-				<div class="box " id="box4"></div>
+				<div class="box top left" id="box1"></div>
+				<div class="box top" id="box2"></div>
+				<div class="box top right" id="box3"></div>
+				<div class="box left" id="box4"></div>
 				<div class="box " id="box5"></div>
-				<div class="box " id="box6"></div>
-				<div class="box " id="box7"></div>
-				<div class="box " id="box8"></div>
-				<div class="box " id="box9"></div>
+				<div class="box right" id="box6"></div>
+				<div class="box left bottom" id="box7"></div>
+				<div class="box bottom" id="box8"></div>
+				<div class="box right bottom" id="box9"></div>
 			</div>
 			<button id="newGameBtn">Start New Game</button>
 		</div>
