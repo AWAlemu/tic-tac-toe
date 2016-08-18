@@ -1,13 +1,13 @@
 $(function() {
     currentGame = '';
-    
+    //Switches from landing page to player info form page
     $('#playBtn').click(function() {
         $('.landing').hide();
         $('.playersInfo').show();
 	    activateTurn1();
 	    activateMark1();
     });
-
+    //Disables and styles player 1 form selections
     $('.option2').click(function() {
         var id = this.id;
         $('.turn1').off('click');
@@ -16,7 +16,7 @@ $(function() {
         $('#' + id).css('background-color', '#99ff33');
         form.updateForm(id);
     });
-
+    //Processes form submission
     $('.form').submit(function(e) {
         e.preventDefault();
         var name1 = $('input[name=name1]').val();
@@ -27,7 +27,7 @@ $(function() {
         currentGame = newGame();
         updateTurn();
     });
-
+    //Clears player info board
     $('#resetBtn').click(function() {
         form.reset();
         $('.turn1, .mark1, .option2').css('background-color', '#ccff99');
@@ -38,13 +38,13 @@ $(function() {
         activateTurn1();
         activateMark1();
     });
-
+    //Initializes a new game
     $('#newGameBtn').click(function() {
         currentGame = newGame();
         updateTurn();
     });
 });
-
+//Reenables turn selection for player 1 
 function activateTurn1() {
     $('.turn1').on('click', function() {
         var id = this.id;
@@ -55,7 +55,7 @@ function activateTurn1() {
         form.updateForm(id);
     });
 }
-
+//Reenables mark selection for player 1 
 function activateMark1() {
     $('.mark1').on('click', function() {
         var id = this.id;
@@ -66,7 +66,7 @@ function activateMark1() {
         form.updateForm(id);
     });
 }
-
+//Update board and turn when a player marks a box 
 function userSelects() {
     $('.box').on('click', function() {
         var id = this.id;
@@ -75,7 +75,7 @@ function userSelects() {
         updateTurn();
     });
 }
-
+//Mark board with an x or o
 function updateBoard(id, xo) {
     if (xo == 'x') {
         setX(id);
@@ -83,7 +83,7 @@ function updateBoard(id, xo) {
         setO(id);
     }
 }
-
+//Displays whose turn it is, who won and whether the game is tied
 function updateTurn() {
     if (games[currentGame].winner == '') {
         var player = games[currentGame].turn;
@@ -98,37 +98,37 @@ function updateTurn() {
         updateWinner();
     }
 }
-
+//Displays who the winner is 
 function updateWinner() {
     var winner = games[currentGame].winner;
     $('.playerTurn').hide();
     $('.winner').show();
     $('.winner #player').html(games[currentGame][winner].name);
 }
-
+//Marks a box with x and disables click on box
 function setX(id) {
     $('#' + id).addClass('x');
     deactivateBox(id);
 }
-
+//Marks a box with o and disables click on box
 function setO(id) {
     $('#' + id).addClass('o');
     deactivateBox(id);
 }
-
+//Disables click on box to mark x/o
 function deactivateBox(id) {
     $('#' + id).off('click');
 }
-
+//Disables click on all boxes on board 
 function deactivateBoard() {
     $('.box').off('click');
 }
-
+//Removes x/o marking from board
 function clearBoard() {
     $('.box').removeClass('x');
     $('.box').removeClass('o');
 }
-
+//Initializes a new game
 function newGame() {
     $('.playersInfo').hide();
     $('.game').show();
@@ -152,7 +152,7 @@ function newGame() {
     console.log(games);
     return gameName;
 }
-
+//Form object to process and store player info form submition
 form = {
     form1: {
         name: '',
@@ -190,7 +190,7 @@ form = {
         form.form2.xo = 'o';
     },
 }
-
+//Player prototype to store player Info
 Player = {
     name: '',
     xo: '',
@@ -206,7 +206,7 @@ Player = {
         this.turn = true;
     },
 }
-
+//Game prototype to manage game
 Game = {
     moveCount: 0,
     player1: Object.create(Player),
@@ -216,18 +216,21 @@ Game = {
     board: {
     	boxes: {}
     },
+    //Dynamically adds box objeccts to boxes
     initBoard: function() {
-    	for (var i = 1; i <=9; i++) {
+    	for (var i = 1; i <= 9; i++) {
     		var box = 'box' + i;
 	    	this.board.boxes[box] = {};
 	    	this.board.boxes[box].selected = false;
 	    	this.board.boxes[box].marked = i;
 	    }
     },
+    //Sets a box object with x/o when marked
     markBoard: function(id, xo) {
         this.board.boxes[id].selected = true;
         this.board.boxes[id].marked = xo;
     },
+    //Adds players into game object
     addPlayers: function(player1Name, player1XO, player2Name, player2XO) {
         this.endTurn();
         this.player1.setName(player1Name);
@@ -236,6 +239,7 @@ Game = {
         this.player2.setName(player2Name);
         this.player2.pickXO(player2XO);
     },
+    //Switches turns
     changeTurn: function() {
         if (this.turn == 'player1') {
             this.player1.turn = false;
@@ -247,6 +251,7 @@ Game = {
             this.turn = 'player1';
         }
     },
+    //Ends turn when a winner is found
     endTurn: function() {
         if (this.turn == 'player1') {
             this.player1.wonLostTie = 'won';
@@ -258,28 +263,30 @@ Game = {
        this.player1.turn = false;
        this.player2.turn = false;
     },
+    //Looks for if winning sequence of boxes are marked by the same marker (x or o)
     winnerFound: function() {
-  		console.log(this);     
-        if (this.board.boxes.box1.selected && this.board.boxes.box1.marked == this.board.boxes.box2.marked && this.board.boxes.box1.marked == this.board.boxes.box3.marked) {
+        var bx = this.board.boxes;
+        if (bx.box1.selected && bx.box1.marked == bx.box2.marked && bx.box1.marked == bx.box3.marked) {
             return true;
-        } else if (this.board.boxes.box4.selected && this.board.boxes.box4.marked == this.board.boxes.box5.marked && this.board.boxes.box4.marked == this.board.boxes.box6.marked) {
+        } else if (bx.box4.selected && bx.box4.marked == bx.box5.marked && bx.box4.marked == bx.box6.marked) {
             return true;
-        } else if (this.board.boxes.box7.selected && this.board.boxes.box7.marked == this.board.boxes.box8.marked && this.board.boxes.box7.marked == this.board.boxes.box9.marked) {
+        } else if (bx.box7.selected && bx.box7.marked == bx.box8.marked && bx.box7.marked == bx.box9.marked) {
             return true;
-        } else if (this.board.boxes.box1.selected && this.board.boxes.box1.marked == this.board.boxes.box4.marked && this.board.boxes.box1.marked == this.board.boxes.box7.marked) {
+        } else if (bx.box1.selected && bx.box1.marked == bx.box4.marked && bx.box1.marked == bx.box7.marked) {
             return true;
-        } else if (this.board.boxes.box2.selected && this.board.boxes.box2.marked == this.board.boxes.box5.marked && this.board.boxes.box5.marked == this.board.boxes.box8.marked) {
+        } else if (bx.box2.selected && bx.box2.marked == bx.box5.marked && bx.box2.marked == bx.box8.marked) {
             return true;
-        } else if (this.board.boxes.box3.selected && this.board.boxes.box3.marked == this.board.boxes.box6.marked && this.board.boxes.box3.marked == this.board.boxes.box9.marked) {
+        } else if (bx.box3.selected && bx.box3.marked == bx.box6.marked && bx.box3.marked == bx.box9.marked) {
             return true;
-        } else if (this.board.boxes.box1.selected && this.board.boxes.box1.marked == this.board.boxes.box5.marked && this.board.boxes.box1.marked == this.board.boxes.box9.marked) {
+        } else if (bx.box1.selected && bx.box1.marked == bx.box5.marked && bx.box1.marked == bx.box9.marked) {
             return true;
-        } else if (this.board.boxes.box3.selected && this.board.boxes.box3.marked == this.board.boxes.box5.marked && this.board.boxes.box3.marked == this.board.boxes.box7.marked) {
+        } else if (bx.box3.selected && bx.box3.marked == bx.box5.marked && bx.box3.marked == bx.box7.marked) {
             return true;
         } else {
             return false;
         }
     },
+    //Processes each move
     moveMade: function(id) {
         if (this[this.turn].turn) {
             this.markBoard(id, this[this.turn].xo);
@@ -289,9 +296,9 @@ Game = {
                     this.winner = this.turn;
                     this.endTurn();
                 } else if (this.moveCount == 9) {
-                	this.winner = 'Tied';
-                	this.player1.turn = false;
-       				this.player2.turn = false;
+                    this.winner = 'Tied';
+                    this.player1.turn = false;
+                    this.player2.turn = false;
                 }
             }
             var temp = this[this.turn].xo;
@@ -301,7 +308,7 @@ Game = {
         return '';
     },
 }
-
+//Games object to store game objects 
 games = {
     count: 0,
     new: function(gameName) {
